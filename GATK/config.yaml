@@ -1,0 +1,60 @@
+# Dependencies must be in $PATH, use conda and bioconda for convenience
+rungatk: /path/to/runGATK.py
+reference: /path/to/reference.fasta
+# Output directory (relative path from the directory where rungatk pipeline is called)
+output_directory: output
+# Options for trimming input reads
+trim_options: # fastp trimming options
+  skip_trimming: false # set to true to skip trimming
+  njobs: 4 # Number of parallel trimming jobs (if num libraries < njobs then only num libraries in parallel)
+  threads_per_job: 4 # Number of threads used by one job (total threads used = njobs * threads_per_job)
+  fastp_options: '--detect_adapter_for_pe --trim_poly_g --compression 9'
+align_options: # bwa & sambamba options
+  threads: 20 # Alignement threads to use (one job at a time)
+  ram_per_thread: 4 # RAM per thread for sambamba
+  mapq: 20 # minimum MAPQ to keep alignement (sambamba view)
+  keep_temp: False # keep temporary files or not
+prepare_options: # Options for chunking the input reference
+  window_size: 50 # in Kbps
+call_options: # GATK HaplotypeCaller options (check GATK4 manual for more information)
+  njobs: 4 # Number of parallel HaplotypeCaller jobs
+  ht: 4 # hmm threads see GATK documentation
+  mmn: 500 # max number of files to merge
+  pim: 'NONE'
+  java_options: '-Xmx4G' # Java Virtual Machine options (you may want to increase RAM here)
+  picard_java_options: '-Xmx4G' # Java Virtual Machine options (you may want to increase RAM here)
+  he: 0.01 # heterozygosity
+  ihe: 0.001 # indel heterozygosity
+  mrpas: 50 # see GATK documentation
+  fi: '' # founder_id see GATK documentation
+  erc: 'BP_RESOLUTION' # see GATK documentation
+  om: 'EMIT_ALL_ACTIVE_SITES' # see GATK documentation
+  bam_output: false # output bam realigned files
+  keep_temp: false # keep temporary files
+  log: false # output logs containing GATK commands stdout/stderr
+genotype_options: # GATK GenomicsDBImport and GenotypeGVCFs options (check GATK4 manual for more information)
+  njobs: 4 # Number of parallel genotyping jobs (if num contigs < njobs then only num contigs in parallel)
+  sp: 4 # Sample in parallel for GenomicsDBImport
+  mmn: 500 # max number of files to merge
+  bs: 50 # batch size for GATK GenomicsDBImport
+  java_options: '-Xmx4G' # Java Virtual Machine options (you may want to increase RAM here)
+  picard_java_options: '-Xmx4G' # Java Virtual Machine options for PicardTools (you may want to increase RAM here)
+  db_java_options: '-Xmx12G' # Java Virtual Machine options for GenomicsDBImport (you may want to increase RAM here if the GenomicsDBImport step fails with OOM error)
+  fi: '' # founder_id see GATK documentation
+  he: 0.01 # heterozygosity
+  ihe: 0.001 # indel heterozygosity
+  all_sites: false # Set this to 'true' if you are only looking for variant sites and not reference homozygous sites
+  keep_temp: false #
+  log: false #
+samples:
+  sample_name_A: # SAMPLE NAME that will be in the final VCF column header (do not use spaces)
+    lib1: # PE library for sample A. Note: the library name is not important for the pipeline (do not use spaces)
+      R1: /path/to/input/sample_A.HiSeq2500.lane1.R1.fastq.gz # FWD
+      R2: /path/to/input/sample_A.HiSeq2500.lane1.R2.fastq.gz # REVERSE
+    lib2:
+      R1: /path/to/input/sample_A.HiSeq2500.lane2.R1.fastq.gz
+      R2: /path/to/input/sample_A.HiSeq2500.lane2.R2.fastq.gz
+  sample_B_name:
+    lib1: # Only one library used for sample B
+      R1: /path/to/input/D5B3.lane1.R1.fastq.gz
+      R2: /path/to/input/D5B3.lane1.R2.fastq.gz
