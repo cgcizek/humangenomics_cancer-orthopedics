@@ -8,8 +8,8 @@ GATK variant calling pipeline using python
   - [Align module](#align)
   - [Call module](#call)
   - [Genotype module](#genotype)
-- [Exemple usage: rungatk pipeline](#pipeline)
-- [Exemple usage: manual run](#exemple)
+- [example usage: rungatk pipeline](#pipeline)
+- [example usage: manual run](#example)
 
 ## <a name="install"></a> 1. Environment and installation
 
@@ -138,13 +138,13 @@ optional arguments:
   --use-combine                 Use CombineGVCFS instead of GenomicsDBImport
 ```
 
-## <a name="pipeline"></a> 3. Exemple usage: rungatk pipeline
+## <a name="pipeline"></a> 3. example usage: rungatk pipeline
 
 The `pipeline` module creates a bash script file using a yaml formatted configuration file (see template below or download given file). This allows the user to simply input desired options and libraries, use the module and then run the bash script. This is done in one config file edition and 3 commands.
 
 ### 4.1 Preparing a configuration file
 
-Exemple configuration file:
+example configuration file:
 ```yaml
 # Dependencies must be in $PATH, use conda and bioconda for convenience
 rungatk: /path/to/runGATK.py
@@ -216,7 +216,7 @@ chmod +x pipeline.sh
 
 The final VCF file(s) are: `/path/to/output/jointgenotyping/merged.*.vcf`
 
-## <a name="exemple"></a> 4. Exemple usage: manual run
+## <a name="example"></a> 4. example usage: manual run
 
 ### 4.1 Preparing reference
 
