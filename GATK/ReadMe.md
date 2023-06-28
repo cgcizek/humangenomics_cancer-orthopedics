@@ -23,7 +23,7 @@ See here: https://bioconda.github.io/user/install.html
 conda/mamba create -n rungatk numpy pyyaml bwa sambamba gatk4 picard fastp
 conda activate rungatk
 cd $workdir # Folder of your project
-git clone https://github.com/cgcizek/humangenomics_cancer-orthopedics/GATK/runGATK.git
+git clone https://github.com/cgcizek/humangenomics_cancer-orthopedics/GATK.git
 ```
 
 ## <a name="modules"></a> 2. Module usage
